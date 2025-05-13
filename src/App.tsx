@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
       <header className="max-w-6xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-center">Armanda</h1>
+        <h1 className="text-3xl font-bold text-center">Armandra</h1>
         <p className="text-center text-gray-600 dark:text-gray-400">
           Distributed Stress Testing Tool
         </p>
@@ -36,7 +36,7 @@ function App() {
         )}
 
         <footer className="text-center text-gray-500 text-sm mt-12">
-          <p>Armanda v0.1.0 - Distributed Stress Testing Tool</p>
+          <p>Armandra v0.1.0 - Distributed Stress Testing Tool</p>
         </footer>
       </main>
     </div>

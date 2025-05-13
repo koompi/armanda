@@ -2,14 +2,11 @@ use futures_util::{SinkExt, StreamExt};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
-use tokio::net::TcpStream;
 use tokio::sync::{mpsc, Mutex, oneshot};
-use tokio_tungstenite::{connect_async, tungstenite::protocol::Message, MaybeTlsStream, WebSocketStream};
+use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
 use url::Url;
 
 use crate::stress_test::{TestConfig, TestResult};
-
-type WebSocket = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoomInfo {

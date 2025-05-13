@@ -1,5 +1,5 @@
 {
-  "name": "armanda",
+  "name": "armandra",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,7 +8,11 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "server": "node server/index.js"
+    "server": "node server/index.js",
+    "build:mac": "tauri build --target universal-apple-darwin",
+    "build:linux": "tauri build --target x86_64-unknown-linux-gnu",
+    "build:appimage": "tauri build --target x86_64-unknown-linux-gnu --bundles appimage",
+    "build:all": "tauri build --target universal-apple-darwin,x86_64-unknown-linux-gnu"
   },
   "dependencies": {
     "react": "^18.3.1",
