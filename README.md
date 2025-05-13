@@ -2,7 +2,7 @@
 
 Armandra is a powerful cross-platform distributed stress testing tool designed for testing websites and collecting errors. Built with Tauri, React, and Rust, it provides a robust solution for load testing web applications across multiple machines.
 
-![Armandra Logo](./armandra/src-tauri/icons/armandra/icon_128x128.png)
+![Armandra Logo](./src-tauri/icons/armandra/icon_128x128.png)
 
 ## Features
 

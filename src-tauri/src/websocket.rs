@@ -2,7 +2,7 @@ use futures_util::{SinkExt, StreamExt};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
-use tokio::sync::{mpsc, Mutex, oneshot};
+use tokio::sync::{mpsc, Mutex, oneshot, broadcast};
 use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
 use url::Url;
 
@@ -30,10 +30,18 @@ struct WebSocketMessage {
 }
 
 #[derive(Debug, Clone)]
+pub struct RoomStatusUpdate {
+    pub room_id: String,
+    pub status: String,
+    pub config: Option<TestConfig>,
+}
+
+#[derive(Debug, Clone)]
 pub struct WebSocketClient {
     tx: mpsc::Sender<Message>,
     connected: Arc<Mutex<bool>>,
     response_channels: Arc<Mutex<HashMap<String, oneshot::Sender<serde_json::Value>>>>,
+    status_tx: broadcast::Sender<RoomStatusUpdate>,
 }
 
 impl WebSocketClient {
@@ -50,8 +58,12 @@ impl WebSocketClient {
         let connected = Arc::new(Mutex::new(true));
         let response_channels = Arc::new(Mutex::new(HashMap::<String, oneshot::Sender<serde_json::Value>>::new()));
 
+        // Create a broadcast channel for room status updates
+        let (status_tx, _) = broadcast::channel::<RoomStatusUpdate>(100);
+
         let connected_clone = connected.clone();
         let response_channels_clone = response_channels.clone();
+        let status_tx_clone = status_tx.clone();
 
         // Handle outgoing messages
         tokio::spawn(async move {
