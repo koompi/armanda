@@ -1,0 +1,16 @@
+{
+  "name": "armanda-server",
+  "version": "1.0.0",
+  "description": "Coordination server for Armanda stress testing tool",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3",
+    "ws": "^8.16.0",
+    "uuid": "^9.0.1"
+  }
+}
