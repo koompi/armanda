@@ -1,8 +1,8 @@
-# Armanda
+# Armandra
 
-Armanda is a powerful cross-platform distributed stress testing tool designed for testing websites and collecting errors. Built with Tauri, React, and Rust, it provides a robust solution for load testing web applications across multiple machines.
+Armandra is a powerful cross-platform distributed stress testing tool designed for testing websites and collecting errors. Built with Tauri, React, and Rust, it provides a robust solution for load testing web applications across multiple machines.
 
-![Armanda Logo](./armanda/public/tauri.svg)
+![Armandra Logo](./armandra/public/tauri.svg)
 
 ## Features
 
@@ -15,7 +15,7 @@ Armanda is a powerful cross-platform distributed stress testing tool designed fo
 
 ## Architecture
 
-Armanda consists of three main components:
+Armandra consists of three main components:
 
 1. **Desktop Client**: A Tauri application with React frontend and Rust backend
 2. **Coordination Server**: WebSocket server for synchronizing test execution across clients
@@ -34,8 +34,8 @@ Armanda consists of three main components:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/koompi/armanda.git
-   cd armanda
+   git clone https://github.com/koompi/armandra.git
+   cd armandra
    ```
 
 2. Install dependencies:
@@ -102,7 +102,7 @@ As a room host, you can configure the test parameters:
 ### Project Structure
 
 ```
-armanda/
+armandra/
 ├── src/                  # React frontend
 │   ├── components/       # UI components
 │   ├── store/            # State management

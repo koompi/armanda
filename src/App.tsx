@@ -9,21 +9,31 @@ function App() {
   const { localResult, aggregatedResult } = useStore();
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
-      <header className="max-w-6xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-center">Armandra</h1>
-        <p className="text-center text-gray-600 dark:text-gray-400">
+    <div className="min-h-screen bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 p-4 transition-colors duration-200">
+      <header className="max-w-6xl mx-auto mb-8 pt-6">
+        <div className="flex items-center justify-center mb-2">
+          <img
+            src="/src-tauri/icons/armandra/icon_128x128.png"
+            alt="Armandra Logo"
+            className="h-16 w-16 mr-3"
+          />
+          <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-armandra-dark via-armandra to-yellow-300 text-transparent bg-clip-text">
+            Armandra
+          </h1>
+        </div>
+        <p className="text-center text-gray-700 dark:text-armandra-light font-medium">
           Distributed Stress Testing Tool
         </p>
+        <div className="w-24 h-1 bg-armandra mx-auto mt-2 rounded-full"></div>
       </header>
 
       <main className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="space-y-8">
             <ConnectionForm />
             <RoomManager />
           </div>
-          <div className="space-y-6">
+          <div className="space-y-8">
             <TestConfigForm />
             <TestController />
           </div>
@@ -35,8 +45,10 @@ function App() {
           </div>
         )}
 
-        <footer className="text-center text-gray-500 text-sm mt-12">
+        <footer className="text-center text-gray-600 dark:text-gray-400 text-sm mt-16 mb-4 flex flex-col items-center">
+          <div className="w-16 h-0.5 bg-armandra mb-4 rounded-full"></div>
           <p>Armandra v0.1.0 - Distributed Stress Testing Tool</p>
+          <p className="mt-1">© {new Date().getFullYear()} KOOMPI</p>
         </footer>
       </main>
     </div>

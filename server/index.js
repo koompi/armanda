@@ -346,5 +346,5 @@ function aggregateResults(clientResults) {
 
 const PORT = process.env.PORT || 3001;
 httpServer.listen(PORT, () => {
-  console.log(`Armanda coordination server running on port ${PORT}`);
+  console.log(`Armandra coordination server running on port ${PORT}`);
 });

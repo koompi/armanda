@@ -1,7 +1,7 @@
 {
-  "name": "armanda-server",
+  "name": "armandra-server",
   "version": "1.0.0",
-  "description": "Coordination server for Armanda stress testing tool",
+  "description": "Coordination server for Armandra stress testing tool",
   "main": "index.js",
   "type": "module",
   "scripts": {
