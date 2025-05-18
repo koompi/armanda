@@ -13,18 +13,18 @@ function App() {
       <header className="max-w-6xl mx-auto mb-8 pt-6">
         <div className="flex items-center justify-center mb-2">
           <img
-            src="/src-tauri/icons/armandra/icon_128x128.png"
-            alt="Armandra Logo"
+            src="/src-tauri/icons/tomada/icon_128x128.png"
+            alt="Tomada Logo"
             className="h-16 w-16 mr-3"
           />
-          <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-armandra-dark via-armandra to-yellow-300 text-transparent bg-clip-text">
-            Armandra
+          <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-tomada-dark via-tomada to-yellow-300 text-transparent bg-clip-text">
+            Tomada
           </h1>
         </div>
-        <p className="text-center text-gray-700 dark:text-armandra-light font-medium">
+        <p className="text-center text-gray-700 dark:text-tomada-light font-medium">
           Distributed Stress Testing Tool
         </p>
-        <div className="w-24 h-1 bg-armandra mx-auto mt-2 rounded-full"></div>
+        <div className="w-24 h-1 bg-tomada mx-auto mt-2 rounded-full"></div>
       </header>
 
       <main className="max-w-6xl mx-auto">
@@ -46,8 +46,8 @@ function App() {
         )}
 
         <footer className="text-center text-gray-600 dark:text-gray-400 text-sm mt-16 mb-4 flex flex-col items-center">
-          <div className="w-16 h-0.5 bg-armandra mb-4 rounded-full"></div>
-          <p>Armandra v0.1.0 - Distributed Stress Testing Tool</p>
+          <div className="w-16 h-0.5 bg-tomada mb-4 rounded-full"></div>
+          <p>Tomada v0.1.0 - Distributed Stress Testing Tool</p>
           <p className="mt-1">© {new Date().getFullYear()} KOOMPI</p>
         </footer>
       </main>

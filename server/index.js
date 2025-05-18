@@ -1,7 +1,7 @@
-import express from 'express';
-import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
-import { v4 as uuidv4 } from 'uuid';
+import express from "express";
+import { createServer } from "http";
+import { WebSocketServer } from "ws";
+import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 const httpServer = createServer(app);
@@ -17,7 +17,7 @@ const testResults = new Map();
 // Generate a unique client ID
 let nextClientId = 1;
 
-wss.on('connection', (ws) => {
+wss.on("connection", (ws) => {
   const clientId = `client-${nextClientId++}`;
   console.log(`Client connected: ${clientId}`);
 
@@ -25,19 +25,19 @@ wss.on('connection', (ws) => {
   clients.set(clientId, { ws, roomId: null });
 
   // Send the client their ID
-  sendToClient(ws, 'connected', { clientId });
+  sendToClient(ws, "connected", { clientId });
 
-  ws.on('message', (message) => {
+  ws.on("message", (message) => {
     try {
       const data = JSON.parse(message.toString());
       handleMessage(ws, clientId, data);
     } catch (error) {
-      console.error('Error parsing message:', error);
-      sendToClient(ws, 'error', { error: 'Invalid message format' });
+      console.error("Error parsing message:", error);
+      sendToClient(ws, "error", { error: "Invalid message format" });
     }
   });
 
-  ws.on('close', () => {
+  ws.on("close", () => {
     console.log(`Client disconnected: ${clientId}`);
     leaveRoom(clientId);
     clients.delete(clientId);
@@ -49,27 +49,27 @@ function handleMessage(ws, clientId, data) {
   const { type, payload } = data;
 
   switch (type) {
-    case 'create-room':
+    case "create-room":
       createRoom(ws, clientId);
       break;
-    case 'join-room':
+    case "join-room":
       joinRoom(ws, clientId, payload.roomId);
       break;
-    case 'configure-test':
+    case "configure-test":
       configureTest(ws, clientId, payload.config);
       break;
-    case 'start-test':
+    case "start-test":
       startTest(ws, clientId);
       break;
-    case 'submit-results':
+    case "submit-results":
       submitResults(ws, clientId, payload.results);
       break;
-    case 'leave-room':
+    case "leave-room":
       leaveRoom(clientId);
-      sendToClient(ws, 'leave-room-response', { success: true });
+      sendToClient(ws, "leave-room-response", { success: true });
       break;
     default:
-      sendToClient(ws, 'error', { error: 'Unknown message type' });
+      sendToClient(ws, "error", { error: "Unknown message type" });
   }
 }
 
@@ -81,7 +81,7 @@ function createRoom(ws, clientId) {
     host: clientId,
     clients: [clientId],
     config: null,
-    status: 'waiting', // waiting, configured, running, completed
+    status: "waiting", // waiting, configured, running, completed
   });
 
   // Update client's room
@@ -89,13 +89,16 @@ function createRoom(ws, clientId) {
   clientData.roomId = roomId;
 
   console.log(`Room created: ${roomId} by ${clientId}`);
-  sendToClient(ws, 'create-room-response', { success: true, roomId });
+  sendToClient(ws, "create-room-response", { success: true, roomId });
 }
 
 // Join an existing room
 function joinRoom(ws, clientId, roomId) {
   if (!rooms.has(roomId)) {
-    sendToClient(ws, 'join-room-response', { success: false, error: 'Room not found' });
+    sendToClient(ws, "join-room-response", {
+      success: false,
+      error: "Room not found",
+    });
     return;
   }
 
@@ -109,17 +112,17 @@ function joinRoom(ws, clientId, roomId) {
   console.log(`Client ${clientId} joined room: ${roomId}`);
 
   // Notify the room about the new client
-  broadcastToRoom(roomId, 'client-joined', {
+  broadcastToRoom(roomId, "client-joined", {
     clientId,
-    clientCount: room.clients.length
+    clientCount: room.clients.length,
   });
 
-  sendToClient(ws, 'join-room-response', {
+  sendToClient(ws, "join-room-response", {
     success: true,
     roomId,
     config: room.config,
     status: room.status,
-    clientCount: room.clients.length
+    clientCount: room.clients.length,
   });
 }
 
@@ -127,69 +130,87 @@ function joinRoom(ws, clientId, roomId) {
 function configureTest(ws, clientId, config) {
   const clientData = clients.get(clientId);
   if (!clientData || !clientData.roomId) {
-    sendToClient(ws, 'configure-test-response', { success: false, error: 'Not in a room' });
+    sendToClient(ws, "configure-test-response", {
+      success: false,
+      error: "Not in a room",
+    });
     return;
   }
 
   const room = rooms.get(clientData.roomId);
   if (room.host !== clientId) {
-    sendToClient(ws, 'configure-test-response', { success: false, error: 'Only the host can configure the test' });
+    sendToClient(ws, "configure-test-response", {
+      success: false,
+      error: "Only the host can configure the test",
+    });
     return;
   }
 
   room.config = config;
-  room.status = 'configured';
+  room.status = "configured";
 
   // Notify all clients in the room about the new configuration
-  broadcastToRoom(clientData.roomId, 'test-configured', config);
+  broadcastToRoom(clientData.roomId, "test-configured", config);
 
   console.log(`Test configured in room ${clientData.roomId}`);
-  sendToClient(ws, 'configure-test-response', { success: true });
+  sendToClient(ws, "configure-test-response", { success: true });
 }
 
 // Start a test
 function startTest(ws, clientId) {
   const clientData = clients.get(clientId);
   if (!clientData || !clientData.roomId) {
-    sendToClient(ws, 'start-test-response', { success: false, error: 'Not in a room' });
+    sendToClient(ws, "start-test-response", {
+      success: false,
+      error: "Not in a room",
+    });
     return;
   }
 
   const room = rooms.get(clientData.roomId);
   if (room.host !== clientId) {
-    sendToClient(ws, 'start-test-response', { success: false, error: 'Only the host can start the test' });
+    sendToClient(ws, "start-test-response", {
+      success: false,
+      error: "Only the host can start the test",
+    });
     return;
   }
 
-  if (room.status !== 'configured') {
-    sendToClient(ws, 'start-test-response', { success: false, error: 'Test not configured' });
+  if (room.status !== "configured") {
+    sendToClient(ws, "start-test-response", {
+      success: false,
+      error: "Test not configured",
+    });
     return;
   }
 
-  room.status = 'running';
+  room.status = "running";
 
   // Initialize test results
   testResults.set(clientData.roomId, {
     startTime: Date.now(),
     clientResults: new Map(),
-    aggregated: null
+    aggregated: null,
   });
 
   // Notify all clients to start the test
-  broadcastToRoom(clientData.roomId, 'test-started', {
+  broadcastToRoom(clientData.roomId, "test-started", {
     startTime: Date.now(),
-    config: room.config
+    config: room.config,
   });
 
   console.log(`Test started in room ${clientData.roomId}`);
-  sendToClient(ws, 'start-test-response', { success: true });
+  sendToClient(ws, "start-test-response", { success: true });
 }
 
 // Submit test results
 function submitResults(ws, clientId, results) {
   const clientData = clients.get(clientId);
   if (!clientData || !clientData.roomId) {
-    sendToClient(ws, 'submit-results-response', { success: false, error: 'Not in a room' });
+    sendToClient(ws, "submit-results-response", {
+      success: false,
+      error: "Not in a room",
+    });
     return;
   }
 
@@ -197,7 +218,10 @@ function submitResults(ws, clientId, results) {
   const testResult = testResults.get(clientData.roomId);
 
   if (!testResult) {
-    sendToClient(ws, 'submit-results-response', { success: false, error: 'No test running' });
+    sendToClient(ws, "submit-results-response", {
+      success: false,
+      error: "No test running",
+    });
     return;
   }
 
@@ -211,15 +235,15 @@ function submitResults(ws, clientId, results) {
     // Aggregate results
     const aggregatedResults = aggregateResults(testResult.clientResults);
     testResult.aggregated = aggregatedResults;
-    room.status = 'completed';
+    room.status = "completed";
 
     // Notify all clients about the aggregated results
-    broadcastToRoom(clientData.roomId, 'test-completed', aggregatedResults);
+    broadcastToRoom(clientData.roomId, "test-completed", aggregatedResults);
 
     console.log(`Test completed in room ${clientData.roomId}`);
   }
 
-  sendToClient(ws, 'submit-results-response', { success: true });
+  sendToClient(ws, "submit-results-response", { success: true });
 }
 
 // Helper function to handle a client leaving a room
@@ -232,7 +256,7 @@ function leaveRoom(clientId) {
 
   if (room) {
     // Remove client from the room
-    room.clients = room.clients.filter(id => id !== clientId);
+    room.clients = room.clients.filter((id) => id !== clientId);
 
     // If the room is empty, delete it
     if (room.clients.length === 0) {
@@ -242,14 +266,14 @@ function leaveRoom(clientId) {
     } else if (room.host === clientId) {
       // If the host left, assign a new host
       room.host = room.clients[0];
-      broadcastToRoom(roomId, 'host-changed', { newHost: room.host });
+      broadcastToRoom(roomId, "host-changed", { newHost: room.host });
       console.log(`New host in room ${roomId}: ${room.host}`);
     }
 
     // Notify remaining clients
-    broadcastToRoom(roomId, 'client-left', {
+    broadcastToRoom(roomId, "client-left", {
       clientId,
-      clientCount: room.clients.length
+      clientCount: room.clients.length,
     });
   }
 
@@ -270,7 +294,7 @@ function broadcastToRoom(roomId, type, payload) {
   const room = rooms.get(roomId);
   if (!room) return;
 
-  room.clients.forEach(clientId => {
+  room.clients.forEach((clientId) => {
     const clientData = clients.get(clientId);
     if (clientData && clientData.ws.readyState === clientData.ws.OPEN) {
       clientData.ws.send(JSON.stringify({ type, payload }));
@@ -291,7 +315,7 @@ function aggregateResults(clientResults) {
     statusCodes: {},
     throughput: 0,
     clientCount: clientResults.size,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   };
 
   let totalResponseTime = 0;
@@ -304,11 +328,17 @@ function aggregateResults(clientResults) {
     aggregated.successfulRequests += result.successfulRequests || 0;
     aggregated.failedRequests += result.failedRequests || 0;
 
-    if (result.minResponseTime && result.minResponseTime < aggregated.minResponseTime) {
+    if (
+      result.minResponseTime &&
+      result.minResponseTime < aggregated.minResponseTime
+    ) {
       aggregated.minResponseTime = result.minResponseTime;
     }
 
-    if (result.maxResponseTime && result.maxResponseTime > aggregated.maxResponseTime) {
+    if (
+      result.maxResponseTime &&
+      result.maxResponseTime > aggregated.maxResponseTime
+    ) {
       aggregated.maxResponseTime = result.maxResponseTime;
     }
 
@@ -316,7 +346,7 @@ function aggregateResults(clientResults) {
     totalRequests += result.totalRequests || 0;
 
     // Aggregate status codes
-    if (result.statusCodes && typeof result.statusCodes === 'object') {
+    if (result.statusCodes && typeof result.statusCodes === "object") {
       for (const [code, count] of Object.entries(result.statusCodes)) {
         if (!aggregated.statusCodes[code]) {
           aggregated.statusCodes[code] = 0;
@@ -338,7 +368,8 @@ function aggregateResults(clientResults) {
 
   // Calculate throughput (requests per second)
   if (aggregated.totalDuration > 0) {
-    aggregated.throughput = (aggregated.totalRequests / aggregated.totalDuration) * 1000;
+    aggregated.throughput =
+      (aggregated.totalRequests / aggregated.totalDuration) * 1000;
   }
 
   return aggregated;
@@ -346,5 +377,5 @@ function aggregateResults(clientResults) {
 
 const PORT = process.env.PORT || 3001;
 httpServer.listen(PORT, () => {
-  console.log(`Armandra coordination server running on port ${PORT}`);
+  console.log(`Tomada coordination server running on port ${PORT}`);
 });

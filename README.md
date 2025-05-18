@@ -1,8 +1,8 @@
-# Armandra
+# Tomada
 
-Armandra is a powerful cross-platform distributed stress testing tool designed for testing websites and collecting errors. Built with Tauri, React, and Rust, it provides a robust solution for load testing web applications across multiple machines.
+Tomada is a powerful cross-platform distributed stress testing tool designed for testing websites and collecting errors. Built with Tauri, React, and Rust, it provides a robust solution for load testing web applications across multiple machines.
 
-![Armandra Logo](./src-tauri/icons/armandra/icon_128x128.png)
+![Tomada Logo](./src-tauri/icons/tomada/icon_128x128.png)
 
 ## Features
 
@@ -15,7 +15,7 @@ Armandra is a powerful cross-platform distributed stress testing tool designed f
 
 ## Architecture
 
-Armandra consists of three main components:
+Tomada consists of three main components:
 
 1. **Desktop Client**: A Tauri application with React frontend and Rust backend
 2. **Coordination Server**: WebSocket server for synchronizing test execution across clients
@@ -34,8 +34,8 @@ Armandra consists of three main components:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/koompi/armandra.git
-   cd armandra
+   git clone https://github.com/koompi/tomada.git
+   cd tomada
    ```
 
 2. Install dependencies:
@@ -102,7 +102,7 @@ As a room host, you can configure the test parameters:
 ### Project Structure
 
 ```
-armandra/
+tomada/
 ├── src/                  # React frontend
 │   ├── components/       # UI components
 │   ├── store/            # State management

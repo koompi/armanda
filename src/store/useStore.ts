@@ -78,7 +78,7 @@ const defaultTestConfig: TestConfig = {
 
 const useStore = create<StoreState>((set, get) => ({
   // Connection state
-  serverUrl: "wss://armandra.koompi.cloud",
+  serverUrl: "wss://tomada.koompi.cloud",
   isConnected: false,
   connectionError: null,
 
